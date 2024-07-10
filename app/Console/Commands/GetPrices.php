@@ -44,7 +44,9 @@ class GetPrices extends Command
         $assort = Excel::toArray(new AssortImport, storage_path('app/public/assort.xlsx'));
         $prodList = [];
         $pause = rand(1, 3);
-        foreach ($assort[0] as $key => $val) { 
+        $bar = $this->output->createProgressBar(count($assort[0]));
+        $bar->start();
+        foreach ($assort[0] as $key => $val) {
             if ($key >= 9 && $val[8] > 0){
                 $url = 'https://edostavka.by/product/'.$val[8];
                 try{
@@ -77,7 +79,9 @@ class GetPrices extends Command
                     }
                 }
             }
+            $bar->advance();
         }
+        $bar->finish();
         dd($prodList);
     }
 }
