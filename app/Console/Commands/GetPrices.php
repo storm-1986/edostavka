@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Exports\ExcelExport;
 use App\Imports\AssortImport;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
@@ -41,7 +42,7 @@ class GetPrices extends Command
      */
     public function handle()
     {
-        $assort = Excel::toArray(new AssortImport, storage_path('app/public/assort.xlsx'));
+        $assort = Excel::toArray(new AssortImport, storage_path('app/public/export/assort.xlsx'));
         $prodList = [];
         $pause = rand(1, 3);
         $bar = $this->output->createProgressBar(count($assort[0]));
@@ -82,6 +83,6 @@ class GetPrices extends Command
             $bar->advance();
         }
         $bar->finish();
-        dd($prodList);
+        Excel::store(new ExcelExport($prodList), 'public/export/actual.xlsx');
     }
 }
