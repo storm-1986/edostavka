@@ -25,7 +25,7 @@ class ExcelExport implements WithEvents
     {
         $prodList = $this->prodList;
         // get your template file
-        $event->writer->reopen(new LocalTemporaryFile(storage_path('app/public/export/actual.xlsx')), Excel::XLSX);
+        $event->writer->reopen(new LocalTemporaryFile(storage_path('app/public/export/assort.xlsx')), Excel::XLSX);
         $sheet = $event->getWriter()->getSheetByIndex(0);
         foreach ($prodList as $key => $val){
             $row = $key + 1;
